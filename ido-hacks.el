@@ -240,7 +240,7 @@ is minibuffer. (Stolen from icomplete.)"
 		      ">"))))))
 
 
-(defun ido-completions (name candidates predicate require-match)
+(defun ido-completions (name)
   ;; Return the string that is displayed after the user's text.
   ;; Modified from `icomplete-completions'.
   ;; Redefined for sake of performance by ido-hacks.
