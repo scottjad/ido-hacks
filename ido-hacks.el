@@ -94,14 +94,14 @@ history, instead of the incomplete input."
     ad-do-it
 
     (apply 'remove-hook hook (list 'ido-hacks-fix-default-hook))
-    (unless (eq history 'command-history)
-      (setq history (if history
-			(if (symbolp history)
-			    history
-			  (car history))
+    (unless (eq hist 'command-history)
+      (setq hist (if hist
+			(if (symbolp hist)
+			    hist
+			  (car hist))
 		      'minibuffer-history))
       (when (> (length ad-return-value) 0)
-	(add-to-history history ad-return-value)))))
+	(add-to-history hist ad-return-value)))))
 
 
 (defun ido-hacks-fix-default-hook ()
