@@ -7,6 +7,11 @@
 (defvar ido-hacks-orgin-completing-read-function (symbol-function 'completing-read))
 (defvar ido-hacks-completing-read-recursive nil)
 (defvar ido-hacks-flex-narrowed-matches-hash (make-hash-table :test 'equal))
+(defcustom ido-hacks-highlight-flex-matches t
+  "Non-nil means highlight matching characters in flex matched alternatives."
+  :type 'boolean
+  :group 'ido-hacks)
+
 ;; Make compiler happy:
 (defvar ido-directory-too-big nil)
 (defvar ido-directory-nonreadable nil)
@@ -128,7 +133,7 @@ history, instead of the incomplete input."
 		    (> (length ido-text) 1)
 		    (not ido-enable-regexp))
 	
-	  (let* ((re (mapconcat #'regexp-quote (split-string ido-text "" t) ".*"))
+	  (let* ((re (ido-hacks-flex-match-grouped-re ido-text))
 		 longest-prefix valid new-hash)
 	    (maphash
 	     #'(lambda (k v)
@@ -153,11 +158,17 @@ history, instead of the incomplete input."
 	    (mapc
 	     #'(lambda (item)
 		 (let ((name (ido-name item)))
+
 		   (when (and (or (not valid)
 				(gethash name valid))
 			    (string-match re name))
-		       (puthash item t new-hash)
-		       (push item ad-return-value))))
+             (let* ((re (ido-hacks-flex-match-grouped-re ido-text))
+                    (item (if ido-hacks-highlight-flex-matches
+                              (ido-hacks-highlight-flex-matches
+                               re (substring (ido-name item) 0))
+                            item)))
+               (puthash item t new-hash)
+               (push item ad-return-value)))))
 	     items)
 	    
 	    (puthash ido-text
@@ -323,5 +334,25 @@ is minibuffer. (Stolen from icomplete.)"
 	      (apply 'concat (cdr (nreverse alternatives)))
 	      (nth 1 ido-decorations)))))))
 
+(defface ido-hacks-flex-match  '((t (:bold t)))
+  "Face used by ido for highlighting flex match characters."
+  :group 'ido)
+
+(defun ido-hacks-flex-match-grouped-re (search-string)
+  (concat ".*?"
+          (loop for char in (split-string search-string "" t)
+                collect (concat "\\(" char "\\).*?") into letters
+                finally return (apply #'concat letters))))
+
+(defun ido-hacks-highlight-flex-matches (re name)
+  (string-match re name)
+  (let* ((md (match-data))
+         (match-indexes (loop for m from 3 to (1- (length md))
+                              by 2
+                              collect (nth m md) into char-indexes
+                              finally return char-indexes)))
+    (dolist (i match-indexes)
+      (put-text-property (1- i) i 'face 'ido-hacks-flex-match name)))
+  name)
 
 (provide 'ido-hacks)
