@@ -48,7 +48,8 @@ argument is a function (which ido can't handle)."
 		       (car collection)))
 	   (symbolp collection)
 	   inherit-input-method
-	   (eq (get this-command 'ido) 'ignore))
+           (or (not (symbolp this-command))
+               (eq (get this-command 'ido) 'ignore)))
       
       ad-do-it
     ;; copied from ido-completing-read
@@ -73,7 +74,8 @@ history, instead of the incomplete input."
   ;;(defun ido-read-internal (item prompt history &optional default require-match initial)
   (let (history-add-new-input
 	(hook  (intern (format "ido-make-%s-list-hook" item)))
-	(fix-default (get this-command 'ido-hacks-fix-default)))
+	(fix-default (and (symbolp this-command)
+                          (get this-command 'ido-hacks-fix-default))))
     
     (clrhash ido-hacks-flex-narrowed-matches-hash)
     (if (or fix-default
