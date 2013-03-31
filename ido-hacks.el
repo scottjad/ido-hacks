@@ -1,5 +1,6 @@
 ;;; ido-hacks.el --- Put more IDO in your IDO
 
+;; Copyright (C) 2009 Andreas Politz
 ;; Copyright (C) 2011-2013  Scott Jaderholm
 
 ;; Author: Scott Jaderholm <jaderholm@gmail.com>
