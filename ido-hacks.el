@@ -75,7 +75,7 @@ argument is a function (which ido can't handle)."
                        (car collection)))
            (symbolp collection)
            inherit-input-method
-           (or (not (symbolp this-command))
+           (and (symbolp this-command)
                (eq (get this-command 'ido) 'ignore)))
 
       ad-do-it
@@ -84,7 +84,7 @@ argument is a function (which ido can't handle)."
           (ido-current-directory nil)
           (ido-directory-nonreadable nil)
           (ido-directory-too-big nil)
-          (ido-context-switch-command (or (get this-command 'ido-context-switch-command) 'ignore))
+          (ido-context-switch-command (or (and (symbolp this-command) (get this-command 'ido-context-switch-command)) 'ignore))
           (ido-choice-list  (ido-hacks-make-completions collection predicate)))
       (setq ad-return-value
             (ido-read-internal 'list prompt hist def require-match initial-input)))))
