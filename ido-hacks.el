@@ -257,11 +257,10 @@ history, instead of the incomplete input."
           (message "%s"
            (concat "You can run the command "
                    (propertize (format "`%s'" (symbol-name command)) 'face 'font-lock-type-face)
-                   "with <"
+                   " with "
                    (propertize (ignore-errors
                                  (substring (ido-hacks-get-keys (symbol-name command)) 1 -1))
-                               'face 'font-lock-keyword-face)
-                   ">")))))))
+                               'face 'font-lock-keyword-face))))))))
 
 (defun ido-hacks-get-keys (func-name)
   "Return strings naming keys bound to `func-name', or nil if none.
