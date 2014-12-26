@@ -45,7 +45,6 @@
 ;; Make compiler happy:
 (defvar ido-directory-too-big nil)
 (defvar ido-directory-nonreadable nil)
-(defvar ido-directory-nonreadable nil)
 (defvar ido-choice-list nil)
 (defvar ido-temp-list nil)
 (defvar ido-cur-item nil)
