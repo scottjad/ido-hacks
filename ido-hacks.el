@@ -3,7 +3,8 @@
 ;; Copyright (C) 2009 Andreas Politz
 ;; Copyright (C) 2011-2013  Scott Jaderholm
 
-;; Author: Scott Jaderholm <jaderholm@gmail.com>
+;; Author: Andreas Politz
+;; Maintainer: Scott Jaderholm <jaderholm@gmail.com>
 ;; Version: 0.1
 ;; Keywords: convenience
 
