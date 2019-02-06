@@ -296,7 +296,7 @@ is minibuffer. (Stolen from icomplete.)"
     (if (and ido-use-faces comps)
         (let* ((fn (ido-name (car comps)))
                (ln (length fn)))
-          (setq first (format "%s" fn))
+          (setq first (copy-sequence fn))
           (put-text-property 0 ln 'face
                              (if (= (length comps) 1)
                                  (if ido-incomplete-regexp
