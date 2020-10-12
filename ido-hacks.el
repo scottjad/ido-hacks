@@ -30,7 +30,7 @@
 
 (require 'ido)
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-macs))
 
 ;; This file contains a couple of advices, mostly to make ido the
 ;; default `completing-read' function and some optimizations.
